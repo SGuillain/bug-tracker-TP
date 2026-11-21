@@ -1,0 +1,15 @@
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Les appels /api/... sont transmis à l'API Symfony
+    location /api/ {
+        proxy_pass ${API_UPSTREAM};
+    }
+
+    # Vue Router (mode history) : toute autre URL renvoie index.html
+    location / {
+        try_files $uri /index.html;
+    }
+}
